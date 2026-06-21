@@ -18,6 +18,28 @@ Verify-debt (w ROADMAP): BLOK 3 shrink + BLOK 5 timeline stygnięcia = capture r
 → Start/Bite/Stop (bez tego grubas żyje tylko przez API testowe). Bramka projektowa: `APPETITE_GRUBAS_design.md`.
 *Commity (repo gry `Game.git`): `545a95d` (kod) + `b4edc36` (docs). Push `Game.git` wstrzymany — osobny temat infra (repo gry ~3 GB).*
 
+## 2026-06-20 — Most Maslow→BT, plaster #1 (pragnienie): C++ steruje wyborem akcji
+**Status:** ✅ zbudowane + PIE-zweryfikowane.
+`GetActionableNeed()` deleguje do sędziego `EvaluateCurrentNeed` i mapuje poziom→konkret; serwis BT pisze
+JEDEN klucz `CurrentNeed`; zapis klucza w BP `EvaluateNeeds` zamrożony (odpięty). Dowód: zepsucie C++ Hydration
+(BP `ThirstLevel` nietknięty) → `CurrentNeed=Thirst` → BT wchodzi w Handle Thirst (FindWater). Rozplątuje dwa
+równoległe systemy potrzeb — C++ Maslow został mózgiem, BP cienkim ciałem.
+*Commity: `32c6b81` (most), `2a381d5` (recon TRASH_: „reset stanu" to artefakt pomiaru, nie re-init; TECH-09 zamknięte).*
+
+## 2026-06-20 — OCEAN slice #1: Neurotyczność → szansa paniki L0
+**Status:** ✅ zbudowane + PIE-zweryfikowane (killer-demo).
+`FOceanProfile` (Wielka Piątka per-NPC) na `UNPCIdentityComponent`; Neurotyczność przesuwa SZANSĘ paniki
+(stochastyczny rzut na kadencji metabolizmu, latch `bIsInPanic`, histereza wyjścia). Sędzia tylko CZYTA latch —
+zero RNG w środku. Killer-demo: ta sama rana (HP%=0.35) → C1 N=0.9 PanicChance 0.25 → panika; C2 N=0.1 → 0.00 → spokój.
+*Commity: `48e1a73` (slice), `8951d65` (korekta misdiagnozy TECH-08 — żadnego pinu HP nie ma).*
+
+## 2026-06-20 — NPCRegistry (L3-01) ⭐ keystone: int32 ID → żywy NPC
+**Status:** ✅ zbudowane + PIE-zweryfikowane.
+`UNPCRegistrySubsystem` (Register/Unregister/GetNPCById/GetRegisteredCount; ID nie-recyklowane, O(1), bez Tick)
++ `UNPCIdentityComponent` (rejestracja w `BeginPlay` / wyrejestrowanie w `EndPlay`). PIE: ID 1/2, nowy NPC→ID 3
+(nie-recykling), `EndPlay`→„ID retired", count→0. Odblokowuje P2P (L3-05), reputację (L4-01), detektywa (L5-01).
+*Commit: `ba9c092`.*
+
 ## 2026-06-19 — Warstwa doby: DayNightTempOffset (dokumentacja + weryfikacja)
 **Status:** ✅ udokumentowane i zweryfikowane względem kodu.
 Offset temperatury dzień/noc spięty z `BP_DayNightCycle` (źródło: SunIntensity/MaxSunIntensity).
@@ -47,6 +69,5 @@ Narastanie `HoursAwake`/zmęczenia, drabina stanów `FatigueState`.
 ### Następne w kolejce (z ramy projektu)
 - Postawienie zegara dobowego na mapie Caldreth (domknięcie warstwy doby + „jeden zegar").
 - Caldreth spawner (zaludnienie wyspy NPC + NavMesh).
-- **NPCRegistry** — keystone pod warstwy społeczne L3/L4/L5 + cache stref.
 - Pierwszy pionowy plaster systemu technologii: głód → polowanie → porażka → eksperyment
   (kamień o kamień) → ostry kamień → udane polowanie.
