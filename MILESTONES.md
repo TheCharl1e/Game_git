@@ -5,6 +5,22 @@ Najnowsze na górze.
 
 ---
 
+## 2026-06-22 — HUD consolidation: jeden persistent HUD RTS (właściciel = PC_RTSGameMode)
+**Status:** ✅ zbudowane + PIE-zweryfikowane (bloki 1/2/3/5/6); EC-1 wired (runtime-test wymaga mapy bez zegara).
+Rozplątanie własności HUD-u: był martwy, bo sierota `PC_RTSGameMode.HUDReference` (0 ref) nigdy nie tworzona,
+a ekran karmił **niewłaściwy właściciel** — środowiskowy `BP_DayNightCycle.BeginPlay`. Naprawa przez **odwrócenie
+własności, nie przeniesienie kodu**: `WBP_DebugInfo` → **rename `WBP_RTSHud`**; `PC_RTSGameMode.BeginPlay` tworzy+dodaje
+HUD (idempotent `Branch IsValid(HUDReference)`→CreateWidget→Set→AddToViewport); `BP_DayNightCycle.BeginPlay` odpięty
+od viewportu (strip → `DebugUI=None`, aktor = czyste źródło). Kierunek danych = **pull dispatcher-owy** (widget
+`Construct` binduje `OnTimeUpdated`→`BP_DayNightCycle.OnMinutePassed`; pull `CurrentTimeWorld`/`DayOfYear`/`Pora`) —
+NIE timer 1s, `has_tick=false` (świadomie zostawiony „dispatcher upgrade" z gate'u zamiast pollingu). Dobudowane:
+EC-1 `--:--` (CastFailed), Day/Pora, D-STRIP (`SunIntens`/`MoonIntens` schowane), oraz **minute-fix `%60`** (źródłowy
+`CurrentTimeWorld.Minute` to suma minut doby, nie minuta-godziny). **Twarde liczby PIE:** `HUDReference=WBP_RTSHud_C`
+`in_viewport=True`; `DebugUI=None`; `CurrentTime "10:56"` (po `%60`, przed: „12:742"/„20:1251"); `Pora` Day→Night;
+inspektor (WBP_NPC/WBP_NPC_Inspector) nietknięty. Dług: **SUP-05 (P3)** — wytnij martwe `Get DebugUI`→SetText z
+`THE ATMOSPHERE`(3×)/`Debug`(2×) w BP_DayNightCycle (behawioralnie martwe, do zrobienia wizualnie w edytorze, zero blind).
+*Bez hasha — zmiany BP/UMG zapisane ręcznie (Ctrl+S, reguła RF_Standalone), nie commit kodu. Bramka: `HUD_CONSOLIDATION_design.md`. Raport: `Gra_Stan_Pierwotny/REPORTS/raport_2026-06-22_hud_consolidation_done.md`.*
+
 ## 2026-06-21 — APPETITE / Grubas slice 1 (jedzenie jako proces + makra→magazyn + rozpychanie żołądka + most izolacji)
 **Status:** ✅ zbudowane + PIE-zweryfikowane (rdzeń); runaway — bez hamulca leptyny (slice 2).
 Jedzenie zamienione w **trzymany, przerywalny proces** (`StartEating`/`ConsumeBite`[AnimNotify]/`StopEating`).
