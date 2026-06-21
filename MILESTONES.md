@@ -16,7 +16,7 @@ rozdzielone od Max 5000. **Twarde liczby PIE:** InsulationFactor=0.88; satiety-s
 100→104.5→106.2; depozyty makr fat +95 / carb-overflow +150 (×0.75) / protein +25 / Volume≠kcal.
 Verify-debt (w ROADMAP): BLOK 3 shrink + BLOK 5 timeline stygnięcia = capture real-time. Wiring-debt: `BTTask_Eat`
 → Start/Bite/Stop (bez tego grubas żyje tylko przez API testowe). Bramka projektowa: `APPETITE_GRUBAS_design.md`.
-*Commity (repo gry `Game.git`): `545a95d` (kod) + `b4edc36` (docs). Push `Game.git` wstrzymany — osobny temat infra (repo gry ~3 GB).*
+*Kod slice 1 jest teraz w **`573830d`** (repo `Game.git` przebudowane orphanem 2026-06-22 → lekkie kod+docs, jedna czysta historia, Private, push OK). Oryginalne commity slice 1 `545a95d`/`b4edc36` — oraz wszystkie pozostałe hashe sprzed 2026-06-22 z tej listy (NPCRegistry/OCEAN/most #1 itd.) — zachowane wyłącznie w archiwum `E:\Game-history-2026-06-21.bundle` (3.1 GB, pełna stara historia). Bramka: `APPETITE_GRUBAS_design.md`.*
 
 ## 2026-06-20 — Most Maslow→BT, plaster #1 (pragnienie): C++ steruje wyborem akcji
 **Status:** ✅ zbudowane + PIE-zweryfikowane.
