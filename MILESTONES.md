@@ -20,6 +20,7 @@ EC-1 `--:--` (CastFailed), Day/Pora, D-STRIP (`SunIntens`/`MoonIntens` schowane)
 inspektor (WBP_NPC/WBP_NPC_Inspector) nietknięty. Dług: **SUP-05 (P3)** — wytnij martwe `Get DebugUI`→SetText z
 `THE ATMOSPHERE`(3×)/`Debug`(2×) w BP_DayNightCycle (behawioralnie martwe, do zrobienia wizualnie w edytorze, zero blind).
 *Bez hasha — zmiany BP/UMG zapisane ręcznie (Ctrl+S, reguła RF_Standalone), nie commit kodu. Bramka: `HUD_CONSOLIDATION_design.md`. Raport: `Gra_Stan_Pierwotny/REPORTS/raport_2026-06-22_hud_consolidation_done.md`.*
+**SUP-05 domknięte 2026-06-22 (Monolith, chirurgicznie):** martwe `Get DebugUI`→SetText w `THE ATMOSPHERE`(3×)/`Debug`(2×) + `Print "nope"` wycięte (bypass exec, body Debug = no-op, zmienna `DebugUI` usunięta) → 0 `Get DebugUI`, compile green, **log PIE czysty**; łańcuchy słońca/atmosfery/temp nietknięte.
 
 ## 2026-06-21 — APPETITE / Grubas slice 1 (jedzenie jako proces + makra→magazyn + rozpychanie żołądka + most izolacji)
 **Status:** ✅ zbudowane + PIE-zweryfikowane (rdzeń); runaway — bez hamulca leptyny (slice 2).
